@@ -63,7 +63,6 @@ def echo(message):
             return
 
     logger.info(f'</code>@{message.from_user.username}<code> ({message.chat.id}) used echo:\n\n%s', message.text)
-    bot.send_message(message.chat.id, message.text)
 
 
 if __name__ == '__main__':
