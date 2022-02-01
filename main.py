@@ -7,6 +7,26 @@ from setup import bot, logger
 from webhook import app
 
 # --------------- dialog params -------------------
+reply = {
+    'whopirate': {
+        'in': ['хто пірат', 'хто пірат?', 'хто на вахті', 'хто на вахті?'],
+        'out': [
+            'Саша Цюпях',
+            'Юля Лавнічек',
+            'Діма Лавнічек',
+            'Діма Журавльов',
+            'Ігор Никитюк',
+            'Настя Никитюк',
+            'Оля Голячук',
+            'Софа Бичковська',
+            'Юля Акерман',
+            'Саша Акерман',
+            'Олена Цалко',
+            'Антон Цалко'
+        ]
+    }
+}
+
 dialog = {
     'shisha': {
         'in': ['кальян', 'калюсік', 'коля', 'нікалай'],
@@ -156,6 +176,12 @@ def say_welcome(message):
 
 @bot.message_handler(func=lambda message: True)
 def echo(message):
+    for t, resp in reply.items():
+        if sum([e in message.text.lower() for e in resp['in']]):
+            logger.info(f'</code>@{message.from_user.username}<code> ({message.chat.id}) used {t}:\n\n%s', message.text)
+            bot.reply_to(message, random.choice(resp['out']))
+            return
+
     for t, resp in dialog.items():
         if sum([e in message.text.lower() for e in resp['in']]):
             logger.info(f'</code>@{message.from_user.username}<code> ({message.chat.id}) used {t}:\n\n%s', message.text)
